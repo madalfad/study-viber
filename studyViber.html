@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Viber</title>
+    <link rel="icon" href="studyViber_res/studyViber.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #121212; /* Dark background */
+            color: #ffffff; /* Light text */
+        }
+        h1, h2 {
+            color: #ffffff; /* Keep all headers light */
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; /* Allows wrapping onto new lines */
+            margin-top: 20px;
+        }
+        .video-wrapper {
+            margin: 20px;
+            width: 640px; /* Ensures that the width of the video wrapper matches the video */
+        }
+        .slider-wrapper {
+            margin-top: 10px; /* Adds space between the video and slider */
+        }
+        .slider {
+            width: 100%; /* Makes the slider span the full width under the video */
+            -webkit-appearance: none; /* Removes default styling on webkit browsers */
+            appearance: none;
+            height: 8px;
+            background: #444444; /* Darker slider track */
+            outline: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .slider:hover {
+            opacity: 1; /* Increase opacity on hover */
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none; /* Custom thumb styling */
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #00ADB5; /* Lighter thumb for contrast */
+            cursor: pointer;
+        }
+        .slider::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #00ADB5;
+            cursor: pointer;
+        }
+        .pomodoro-timer {
+            margin: 20px;
+            padding: 20px;
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        #timer-display {
+            font-size: 48px;
+            margin: 20px 0;
+        }
+
+        .timer-controls button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .timer-settings {
+            margin-top: 20px;
+        }
+
+        .timer-settings label {
+            margin-right: 10px;
+        }
+
+        .timer-settings input {
+            width: 50px;
+            margin-right: 20px;
+        }
+        #break-counter {
+            margin-top: 5px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #ffffff;
+        }
+        #mode-label {
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<h1>Study Viber</h1>
+<p>by Mahmoud Al-Fadhl</p>
+
+<div class="container">
+    <div class="video-wrapper">
+        <h2>Music</h2>
+        <label for="music-selector"></label><select id="music-selector">
+            <option value="jfKfPfyJRdk">Lofi Girl</option>
+            <option value="4xDzrJKXOOY">Synthwave</option>
+            <option value="TtkFsfOP9QI">Peaceful Piano</option>
+        </select>
+
+        <div id="lofi-player"></div>
+        <div class="slider-wrapper">
+            <label for="lofi-work-volume">Work Volume:</label>
+            <input type="range" min="0" max="100" value="50" class="slider" id="lofi-work-volume">
+            <span class="volume-value" id="lofi-work-volume-value">50</span>
+        </div>
+        <div class="slider-wrapper">
+            <label for="lofi-break-volume">Break Volume:</label>
+            <input type="range" min="0" max="100" value="15" class="slider" id="lofi-break-volume">
+            <span class="volume-value" id="lofi-break-volume-value">30</span>
+        </div>
+    </div>
+
+    <div class="video-wrapper">
+        <h2>Ambiance</h2>
+        <label for="ambiance-selector"></label><select id="ambiance-selector">
+            <option value="0QKdqm5TX6c">Coffee Shop</option>
+            <option value="3qyl9H_BW5o">Rainy Day</option>
+            <option value="757G_El3ABI">Library</option>
+        </select>
+
+        <div id="coffee-player"></div>
+        <div class="slider-wrapper">
+            <label for="coffee-work-volume">Work Volume:</label>
+            <input type="range" min="0" max="100" value="15" class="slider" id="coffee-work-volume">
+            <span class="volume-value" id="coffee-work-volume-value">50</span>
+        </div>
+        <div class="slider-wrapper">
+            <label for="coffee-break-volume">Break Volume:</label>
+            <input type="range" min="0" max="100" value="30" class="slider" id="coffee-break-volume">
+            <span class="volume-value" id="coffee-break-volume-value">30</span>
+        </div>
+    </div>
+</div>
+<div class="pomodoro-timer">
+    <h2>Pomodoro Timer</h2>
+    <div id="mode-label">Work</div> <!-- New mode label -->
+    <div id="timer-display">25:00</div>
+    <div id="break-counter">1/4</div> <!-- Moved break counter -->
+    <div class="timer-controls">
+        <button id="toggle-volume">Toggle Mode</button> <!-- New Toggle Volume button -->
+        <button id="start-timer">Start</button>
+        <button id="pause-timer">Pause/Resume</button>
+        <button id="reset-timer">Reset</button>
+        <button id="skip-timer">Skip</button> <!-- New Skip button -->
+    </div>
+    <div class="timer-settings">
+        <label for="work-time">Work (minutes):</label>
+        <input type="number" id="work-time" value="25" min="1">
+        <label for="break-time">Break (minutes):</label>
+        <input type="number" id="break-time" value="5" min="1">
+        <label for="extended-break-time">Final Break Extra Minutes:</label>
+        <input type="number" id="extended-break-time" value="15" min="1">
+        <label for="short-breaks-before-long">Work Cycles:</label>
+        <input type="number" id="short-breaks-before-long" value="4" min="1">
+    </div>
+</div>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="studyViber.js"></script>
+</body>
+</html>
